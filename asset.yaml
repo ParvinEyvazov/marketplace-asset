@@ -1,0 +1,659 @@
+# BUCKET - Currency
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: currency-5
+spec:
+  title: Currency
+  description: Currencies for the application
+  icon: attach_money
+  primary: title
+  readOnly: false
+  history: false
+  properties:
+    title:
+      type: string
+      description: Description of the title input
+      options:
+        position: bottom
+  acl:
+    write: true==true
+    read: true==true
+  order: 4
+---
+# BUCKET - User
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: user-1
+spec:
+  title: User
+  description: The user of the application
+  icon: account_circle
+  primary: email
+  readOnly: false
+  history: false
+  properties:
+    identity_id:
+      type: string
+      description: Identity id of the user
+      options:
+        position: bottom
+    name:
+      type: string
+      description: Name of the user
+      options:
+        position: bottom
+    surname:
+      type: string
+      description: Surname of the user
+      options:
+        position: bottom
+    email:
+      type: string
+      description: Email of the user
+      options:
+        position: bottom
+    profile_photo:
+      type: storage
+      description: Profile photo of the user
+      options:
+        position: bottom
+    created_at:
+      type: date
+      description: AUTO FILL - Created time of this user
+      options:
+        position: bottom
+      default: :created_at
+    updated_at:
+      type: date
+      description: Updated time of the user
+      options:
+        position: bottom
+      default: :updated_at
+  acl:
+    write: true==true
+    read: true==true
+  order: 0
+---
+# BUCKET - Tags
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: tags-2
+spec:
+  title: Tags
+  description: Tag for the products
+  icon: class
+  primary: title
+  readOnly: false
+  history: false
+  properties:
+    title:
+      type: string
+      description: Title of the tag
+      options:
+        position: left
+    slug:
+      type: string
+      description: AUTO FILL - slug for this tag
+      options:
+        position: right
+  acl:
+    write: true==true
+    read: true==true
+  order: 1
+---
+# BUCKET - Category
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: category-3
+spec:
+  title: Category
+  description: Category of the products
+  icon: assignment
+  primary: title
+  readOnly: false
+  history: false
+  properties:
+    title:
+      type: string
+      description: Title of the category
+      options:
+        position: bottom
+    parent_category:
+      type: relation
+      description: CHANGE IT TO CATEGORY ITSELF
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: user-1
+    slug:
+      type: string
+      description: slug of this category
+      options:
+        position: bottom
+    icon:
+      type: storage
+      description: Icon of this category
+      options:
+        position: bottom
+  acl:
+    write: true==true
+    read: true==true
+  order: 2
+---
+# BUCKET - Product
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: product-4
+spec:
+  title: Product
+  description: Products
+  icon: bubble_chart
+  primary: title
+  readOnly: false
+  history: false
+  properties:
+    title:
+      type: string
+      description: Title of the product
+      options:
+        position: bottom
+    price:
+      type: number
+      description: Price of the product
+      options:
+        position: bottom
+      minimum: 0
+    currency:
+      type: relation
+      description: Description of the currency input
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      primary: title
+      bucket:
+        resourceFieldRef:
+          schemaName: currency-5
+    owner:
+      type: relation
+      description: Owner of this product
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      primary: email
+      bucket:
+        resourceFieldRef:
+          schemaName: user-1
+    sales:
+      type: number
+      description: Number of sales of this product
+      options:
+        position: bottom
+      minimum: 0
+    description:
+      type: richtext
+      description: Description of the description input
+      options:
+        position: bottom
+    rating_count:
+      type: number
+      description: Description of the rating_count input
+      options:
+        position: bottom
+      minimum: 0
+    rating_average:
+      type: number
+      description: Description of the rating_average input
+      options:
+        position: bottom
+      minimum: 0
+    images:
+      type: array
+      description: Images of this product
+      options:
+        position: bottom
+      items:
+        title: Title of the items
+        type: storage
+    tags:
+      type: relation
+      description: Tags for this product
+      options:
+        position: bottom
+      relationType: onetomany
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: tags-2
+    category:
+      type: relation
+      description: Category of the product
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: category-3
+    subcategory:
+      type: relation
+      description: Subcategory of the product
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: category-3
+    created_at:
+      type: date
+      description: Created date of the product
+      options:
+        position: bottom
+      default: :created_at
+    updated_at:
+      type: date
+      description: Update time of the product
+      options:
+        position: bottom
+      default: :updated_at
+    slug:
+      type: string
+      description: AUTO FILL - slug for this product
+      options:
+        position: bottom
+    estimated_arrival_date_start:
+      type: date
+      description: Estimated arrival date start
+      options:
+        position: bottom
+    estimated_arrival_date_end:
+      type: date
+      description: Estimated arrival date end date
+      options:
+        position: bottom
+  acl:
+    write: true==true
+    read: true==true
+  order: 3
+---
+# BUCKET - Comment
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: comment-6
+spec:
+  title: Comment
+  description: Comment of the products
+  icon: question_answer
+  primary: comment
+  readOnly: false
+  history: false
+  properties:
+    product:
+      type: relation
+      description: Commented product
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: product-4
+    user:
+      type: relation
+      description: Commented user
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: user-1
+    comment:
+      type: string
+      description: Comment text
+      options:
+        position: bottom
+    score:
+      type: number
+      description: Score of the comment
+      options:
+        position: bottom
+      minimum: 0
+    created_at:
+      type: date
+      description: Created date of the comment
+      options:
+        position: bottom
+      default: :created_at
+    updated_at:
+      type: date
+      description: updated date of the comment
+      options:
+        position: bottom
+      default: :updated_at
+  acl:
+    write: true==true
+    read: true==true
+  order: 5
+---
+# BUCKET - Address
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: address-7
+spec:
+  title: Address
+  description: Address of the users
+  icon: receipt
+  primary: title
+  readOnly: false
+  history: false
+  properties:
+    user:
+      type: relation
+      description: Address of this user
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      primary: email
+      bucket:
+        resourceFieldRef:
+          schemaName: user-1
+    address:
+      type: string
+      description: Address text
+      options:
+        position: bottom
+    address_description:
+      type: string
+      description: Address Description
+      options:
+        position: bottom
+    title:
+      type: string
+      description: Title of the address
+      options:
+        position: bottom
+    phone:
+      type: string
+      description: Phone in this address
+      options:
+        position: bottom
+    country:
+      type: string
+      description: Country of this address
+      options:
+        position: bottom
+    city:
+      type: string
+      description: City of this address
+      options:
+        position: bottom
+    zip:
+      type: string
+      description: Zip code of address
+      options:
+        position: bottom
+  acl:
+    write: true==true
+    read: true==true
+  order: 6
+---
+# BUCKET - Order
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: order-8
+spec:
+  title: Order
+  description: Orders of the users
+  icon: camera
+  primary: status
+  readOnly: false
+  history: false
+  properties:
+    products:
+      type: relation
+      description: Ordered products
+      options:
+        position: bottom
+      relationType: onetomany
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: product-4
+    user:
+      type: relation
+      description: Ordered user
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: user-1
+    address:
+      type: relation
+      description: Address of the user
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: address-7
+    created_at:
+      type: date
+      description: Created time of the order
+      options:
+        position: bottom
+      default: :created_at
+    updated_at:
+      type: date
+      description: Updated time of this order
+      options:
+        position: bottom
+      default: :updated_at
+    status:
+      type: string
+      description: Status of this order
+      options:
+        position: bottom
+      enum:
+        - pending
+        - accepted
+        - sent
+        - completed
+        - cancelled
+        - error
+    error_message:
+      type: string
+      description: Error message if any error occured
+      options:
+        position: bottom
+    payment_type:
+      type: string
+      description: Payment type of the order
+      options:
+        position: bottom
+    payment_date:
+      type: date
+      description: Payment date if any payment occured
+      options:
+        position: bottom
+    total_price:
+      type: number
+      description: Total price of the order
+      options:
+        position: bottom
+      minimum: 0
+    currency:
+      type: relation
+      description: Currency of the order
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: currency-5
+  acl:
+    write: true==true
+    read: true==true
+  order: 7
+---
+# BUCKET - Cart
+apiVersion: bucket/v1
+kind: Schema
+metadata:
+  name: cart-9
+spec:
+  title: Cart
+  description: Cart of the users
+  icon: shopping_basket
+  primary: total_price
+  readOnly: false
+  history: false
+  properties:
+    products:
+      type: relation
+      description: Products in the cart
+      options:
+        position: bottom
+      relationType: onetomany
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: product-4
+    user:
+      type: relation
+      description: Description of the user input
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: user-1
+    created_at:
+      type: date
+      description: Created date of the cart
+      options:
+        position: bottom
+      default: :created_at
+    updated_at:
+      type: date
+      description: Updated date of the cart
+      options:
+        position: bottom
+      default: :updated_at
+    total_price:
+      type: number
+      description: The total price of the cart
+      options:
+        position: bottom
+      minimum: 0
+    currency:
+      type: relation
+      description: Common currency of the all cart products
+      options:
+        position: bottom
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: currency-5
+  acl:
+    write: true==true
+    read: true==true
+  order: 8
+---
+# FUNCTION - Slugger
+apiVersion: function/v1
+kind: Function
+metadata:
+  name: slugger-1
+spec:
+  description: Creating slug for urls from titles
+  language: javascript
+  timeout: 20
+  environment:
+    - name: API_KEY
+      value: 5fa119krul4svr
+  dependency:
+    - name: "@spica-devkit/bucket"
+      version: ^0.9.7
+  title: Slugger
+  code: ./function/slugger-1.js
+  runtime:
+    name: Node
+    language: Javascript
+---
+# TRIGGER - slugTag
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: slugTag
+spec:
+  active: true
+  type: bucket
+  batch:
+    deadline: 19
+    limit: 9007199254740991
+  name: slugTag
+  func: slugger-1
+  bucketOptions:
+    bucket:
+      resourceFieldRef:
+        schemaName: tags-2
+    type: ALL
+---
+# TRIGGER - slugCategory
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: slugCategory
+spec:
+  type: bucket
+  active: true
+  batch:
+    deadline: 19
+    limit: 9007199254740991
+  name: slugCategory
+  func: slugger-1
+  bucketOptions:
+    bucket:
+      resourceFieldRef:
+        schemaName: category-3
+    type: ALL
+---
+# TRIGGER - slugProduct
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: slugProduct
+spec:
+  type: bucket
+  active: true
+  batch:
+    deadline: 19
+    limit: 9007199254740991
+  name: slugProduct
+  func: slugger-1
+  bucketOptions:
+    bucket:
+      resourceFieldRef:
+        schemaName: product-4
+    type: ALL
