@@ -15,7 +15,7 @@ spec:
       type: string
       description: Description of the title input
       options:
-        position: bottom
+        position: left
   acl:
     write: true==true
     read: true==true
@@ -38,27 +38,27 @@ spec:
       type: string
       description: Identity id of the user
       options:
-        position: bottom
+        position: left
     name:
       type: string
       description: Name of the user
       options:
-        position: bottom
+        position: left
     surname:
       type: string
       description: Surname of the user
       options:
-        position: bottom
+        position: left
     email:
       type: string
       description: Email of the user
       options:
-        position: bottom
+        position: left
     profile_photo:
       type: storage
       description: Profile photo of the user
       options:
-        position: bottom
+        position: right
     created_at:
       type: date
       description: AUTO FILL - Created time of this user
@@ -121,14 +121,15 @@ spec:
       type: string
       description: Title of the category
       options:
-        position: bottom
+        position: left
     parent_category:
       type: relation
       description: CHANGE IT TO CATEGORY ITSELF
       options:
-        position: bottom
+        position: left
       relationType: onetoone
       dependent: false
+      primary: email
       bucket:
         resourceFieldRef:
           schemaName: user-1
@@ -136,7 +137,7 @@ spec:
       type: string
       description: slug of this category
       options:
-        position: bottom
+        position: right
     icon:
       type: storage
       description: Icon of this category
@@ -164,18 +165,18 @@ spec:
       type: string
       description: Title of the product
       options:
-        position: bottom
+        position: left
     price:
       type: number
       description: Price of the product
       options:
-        position: bottom
+        position: left
       minimum: 0
     currency:
       type: relation
       description: Description of the currency input
       options:
-        position: bottom
+        position: right
       relationType: onetoone
       dependent: false
       primary: title
@@ -186,7 +187,7 @@ spec:
       type: relation
       description: Owner of this product
       options:
-        position: bottom
+        position: right
       relationType: onetoone
       dependent: false
       primary: email
@@ -195,27 +196,32 @@ spec:
           schemaName: user-1
     sales:
       type: number
-      description: Number of sales of this product
+      description:
+        AUTO FILL - Will increase when the status of the order changed from
+        pending to accepted
       options:
-        position: bottom
+        position: left
       minimum: 0
+      default: 0
     description:
       type: richtext
       description: Description of the description input
       options:
-        position: bottom
+        position: left
     rating_count:
       type: number
       description: Description of the rating_count input
       options:
-        position: bottom
+        position: right
       minimum: 0
+      default: 0
     rating_average:
       type: number
       description: Description of the rating_average input
       options:
-        position: bottom
+        position: right
       minimum: 0
+      default: 0
     images:
       type: array
       description: Images of this product
@@ -231,6 +237,7 @@ spec:
         position: bottom
       relationType: onetomany
       dependent: false
+      primary: title
       bucket:
         resourceFieldRef:
           schemaName: tags-2
@@ -241,6 +248,7 @@ spec:
         position: bottom
       relationType: onetoone
       dependent: false
+      primary: title
       bucket:
         resourceFieldRef:
           schemaName: category-3
@@ -251,6 +259,7 @@ spec:
         position: bottom
       relationType: onetoone
       dependent: false
+      primary: title
       bucket:
         resourceFieldRef:
           schemaName: category-3
@@ -303,7 +312,7 @@ spec:
       type: relation
       description: Commented product
       options:
-        position: bottom
+        position: left
       relationType: onetoone
       dependent: false
       bucket:
@@ -313,7 +322,7 @@ spec:
       type: relation
       description: Commented user
       options:
-        position: bottom
+        position: left
       relationType: onetoone
       dependent: false
       bucket:
@@ -323,12 +332,12 @@ spec:
       type: string
       description: Comment text
       options:
-        position: bottom
+        position: right
     score:
       type: number
       description: Score of the comment
       options:
-        position: bottom
+        position: right
       minimum: 0
     created_at:
       type: date
@@ -364,7 +373,7 @@ spec:
       type: relation
       description: Address of this user
       options:
-        position: bottom
+        position: left
       relationType: onetoone
       dependent: false
       primary: email
@@ -375,32 +384,32 @@ spec:
       type: string
       description: Address text
       options:
-        position: bottom
+        position: left
     address_description:
       type: string
       description: Address Description
       options:
-        position: bottom
+        position: left
     title:
       type: string
       description: Title of the address
       options:
-        position: bottom
+        position: right
     phone:
       type: string
       description: Phone in this address
       options:
-        position: bottom
+        position: right
     country:
       type: string
       description: Country of this address
       options:
-        position: bottom
+        position: right
     city:
       type: string
       description: City of this address
       options:
-        position: bottom
+        position: right
     zip:
       type: string
       description: Zip code of address
@@ -428,7 +437,7 @@ spec:
       type: relation
       description: Ordered products
       options:
-        position: bottom
+        position: left
       relationType: onetomany
       dependent: false
       bucket:
@@ -438,7 +447,7 @@ spec:
       type: relation
       description: Ordered user
       options:
-        position: bottom
+        position: left
       relationType: onetoone
       dependent: false
       bucket:
@@ -448,7 +457,7 @@ spec:
       type: relation
       description: Address of the user
       options:
-        position: bottom
+        position: left
       relationType: onetoone
       dependent: false
       bucket:
@@ -487,23 +496,23 @@ spec:
       type: string
       description: Payment type of the order
       options:
-        position: bottom
+        position: right
     payment_date:
       type: date
       description: Payment date if any payment occured
       options:
-        position: bottom
+        position: right
     total_price:
       type: number
       description: Total price of the order
       options:
-        position: bottom
+        position: right
       minimum: 0
     currency:
       type: relation
       description: Currency of the order
       options:
-        position: bottom
+        position: right
       relationType: onetoone
       dependent: false
       bucket:
@@ -531,7 +540,7 @@ spec:
       type: relation
       description: Products in the cart
       options:
-        position: bottom
+        position: left
       relationType: onetomany
       dependent: false
       bucket:
@@ -541,12 +550,28 @@ spec:
       type: relation
       description: Description of the user input
       options:
-        position: bottom
+        position: left
       relationType: onetoone
       dependent: false
       bucket:
         resourceFieldRef:
           schemaName: user-1
+    currency:
+      type: relation
+      description: Common currency of the all cart products
+      options:
+        position: right
+      relationType: onetoone
+      dependent: false
+      bucket:
+        resourceFieldRef:
+          schemaName: currency-5
+    total_price:
+      type: number
+      description: The total price of the cart
+      options:
+        position: right
+      minimum: 0
     created_at:
       type: date
       description: Created date of the cart
@@ -559,22 +584,6 @@ spec:
       options:
         position: bottom
       default: :updated_at
-    total_price:
-      type: number
-      description: The total price of the cart
-      options:
-        position: bottom
-      minimum: 0
-    currency:
-      type: relation
-      description: Common currency of the all cart products
-      options:
-        position: bottom
-      relationType: onetoone
-      dependent: false
-      bucket:
-        resourceFieldRef:
-          schemaName: currency-5
   acl:
     write: true==true
     read: true==true
@@ -597,6 +606,54 @@ spec:
       version: ^0.9.7
   title: Slugger
   code: ./function/slugger-1.js
+  runtime:
+    name: Node
+    language: Javascript
+---
+# FUNCTION - Comment handler
+apiVersion: function/v1
+kind: Function
+metadata:
+  name: comment-handler-3
+spec:
+  description: Calculate count and average of the rating of product
+  language: javascript
+  timeout: 21
+  environment:
+    - name: PRODUCT_BUCKET_ID
+      valueFrom:
+        resourceFieldRef:
+          schemaName: product-4
+    - name: API_KEY
+      value: 5fa119krul4svr
+  dependency:
+    - name: "@spica-devkit/bucket"
+      version: ^0.9.7
+  title: Comment handler
+  code: ./function/comment-handler-3.js
+  runtime:
+    name: Node
+    language: Javascript
+---
+# FUNCTION - Sale counter
+apiVersion: function/v1
+kind: Function
+metadata:
+  name: sale-counter-4
+spec:
+  description: Counting the number of sales
+  language: javascript
+  timeout: 22
+  environment:
+    - name: API_KEY
+      value: 5fa119krul4svr
+    - name: PRODUCT_BUCKET_ID
+      value: 6102cd43feda1d002d66e678
+  dependency:
+    - name: "@spica-devkit/bucket"
+      version: ^0.9.7
+  title: Sale counter
+  code: ./function/sale-counter-4.js
   runtime:
     name: Node
     language: Javascript
@@ -657,3 +714,60 @@ spec:
       resourceFieldRef:
         schemaName: product-4
     type: ALL
+---
+# TRIGGER - commentAdder
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: commentAdder
+spec:
+  type: bucket
+  active: true
+  batch:
+    deadline: 20
+    limit: 9007199254740991
+  name: commentAdder
+  func: comment-handler-3
+  bucketOptions:
+    bucket:
+      resourceFieldRef:
+        schemaName: comment-6
+    type: INSERT
+---
+# TRIGGER - commentDeleter
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: commentDeleter
+spec:
+  type: bucket
+  active: true
+  batch:
+    deadline: 20
+    limit: 9007199254740991
+  name: commentDeleter
+  func: comment-handler-3
+  bucketOptions:
+    bucket:
+      resourceFieldRef:
+        schemaName: comment-6
+    type: DELETE
+---
+# TRIGGER - saleCounter
+apiVersion: function/v1
+kind: Trigger
+metadata:
+  name: saleCounter
+spec:
+  type: bucket
+  active: true
+  batch:
+    deadline: 21
+    limit: 9007199254740991
+  name: saleCounter
+  func: sale-counter-4
+  bucketOptions:
+    bucket:
+      resourceFieldRef:
+        schemaName: order-8
+    type: UPDATE
