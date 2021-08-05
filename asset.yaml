@@ -203,6 +203,12 @@ spec:
         position: left
       minimum: 0
       default: 0
+    stock:
+      type: number
+      description: Stock number of the product
+      options:
+        position: bottom
+      default: 0
     description:
       type: richtext
       description: Description of the description input
@@ -440,6 +446,7 @@ spec:
         position: left
       relationType: onetomany
       dependent: false
+      primary: title
       bucket:
         resourceFieldRef:
           schemaName: product-4
@@ -450,6 +457,7 @@ spec:
         position: left
       relationType: onetoone
       dependent: false
+      primary: email
       bucket:
         resourceFieldRef:
           schemaName: user-1
@@ -460,6 +468,7 @@ spec:
         position: left
       relationType: onetoone
       dependent: false
+      primary: title
       bucket:
         resourceFieldRef:
           schemaName: address-7
@@ -487,6 +496,8 @@ spec:
         - completed
         - cancelled
         - error
+      pattern: ""
+      default: pending
     error_message:
       type: string
       description: Error message if any error occured
@@ -515,6 +526,7 @@ spec:
         position: right
       relationType: onetoone
       dependent: false
+      primary: title
       bucket:
         resourceFieldRef:
           schemaName: currency-5
