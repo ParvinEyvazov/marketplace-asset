@@ -1,3 +1,13 @@
+# API KEY
+apiVersion: passport/v1
+kind: ApiKey
+metadata:
+  name: marketplace-asset-api-key
+spec:
+  name: Secret Api Key Markerplace Asset
+  policies:
+    - BucketFullAccess
+---
 # BUCKET - Currency
 apiVersion: bucket/v1
 kind: Schema
@@ -612,7 +622,9 @@ spec:
   timeout: 20
   environment:
     - name: API_KEY
-      value: 5fa119krul4svr
+      valueFrom:
+        resourceFieldRef:
+          apiKeyName: marketplace-asset-api-key
   dependency:
     - name: "@spica-devkit/bucket"
       version: ^0.9.7
@@ -637,7 +649,9 @@ spec:
         resourceFieldRef:
           schemaName: product-4
     - name: API_KEY
-      value: 5fa119krul4svr
+      valueFrom:
+        resourceFieldRef:
+          apiKeyName: marketplace-asset-api-key
   dependency:
     - name: "@spica-devkit/bucket"
       version: ^0.9.7
@@ -658,9 +672,13 @@ spec:
   timeout: 22
   environment:
     - name: API_KEY
-      value: 5fa119krul4svr
+      valueFrom:
+        resourceFieldRef:
+          apiKeyName: marketplace-asset-api-key
     - name: PRODUCT_BUCKET_ID
-      value: 6102cd43feda1d002d66e678
+      valueFrom:
+        resourceFieldRef:
+          schemaName: product-4
   dependency:
     - name: "@spica-devkit/bucket"
       version: ^0.9.7
